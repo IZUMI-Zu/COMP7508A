@@ -45,11 +45,6 @@ class MetaData:
         path = path2 + list(reversed(path1))
         path_name = [self.joint_name[i] for i in path]
 
-        # Debug: Print the actual IK chain
-        print(f"[IK Chain] {self.root_joint} → {self.end_joint}")
-        print(f"[IK Chain] Actual path: {' → '.join(path_name)}")
-        print(f"[IK Chain] Chain length: {len(path_name)} joints")
-
         return path, path_name, path1, path2
 
 
@@ -146,10 +141,6 @@ def inverse_kinematics(
                         )
                     else:
                         chain_orientations[j + 1] = chain_orientations[j]
-
-    # Calculate final distance error after all iterations
-    final_distance = np.linalg.norm(chain_positions[end_idx] - target_pose)
-    print(f"[IK Result] Distance Error: {final_distance:.4f} meters")
 
     # Update global joint positions and orientations with optimized chain
     local_joint_rotations = [R.identity()] * len(meta_data.joint_parent)
@@ -251,11 +242,11 @@ def main():
     You should try different start and end joints and different target positions
     use WASD to move the control points in interactive mode (click the scene to activate the control points)
     """
-    IK_example(viewer, np.array([0.5, 0.75, 0.5]), "lToeJoint_end", "lWrist_end")
+    # IK_example(viewer, np.array([0.5, 0.75, 0.5]), "lToeJoint_end", "lWrist_end")
     # IK_example(viewer, np.array([0.5, 0.75, 0.5]), "lToeJoint_end", "lWrist_end")
     # IK_interactive(viewer, np.array([0.5, 0.75, 0.5]), "RootJoint", "lWrist_end")
     # IK_interactive(viewer, np.array([0.5, 0.75, 0.5]), 'lToeJoint_end', 'lWrist_end')
-    # IK_interactive(viewer, np.array([0.5, 0.75, 0.5]), 'rToeJoint_end', 'lWrist_end')
+    IK_interactive(viewer, np.array([0.5, 0.75, 0.5]), "rToeJoint_end", "lWrist_end")
 
 
 if __name__ == "__main__":
